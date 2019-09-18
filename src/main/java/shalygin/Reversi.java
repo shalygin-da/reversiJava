@@ -1,4 +1,4 @@
-package shalygin.da;
+package shalygin;
 
 public class Reversi
 {

@@ -1,4 +1,4 @@
-package shalygin.da;
+package shalygin;
 
 import static org.junit.Assert.assertTrue;
 

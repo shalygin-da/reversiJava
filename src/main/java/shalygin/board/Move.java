@@ -1,6 +1,6 @@
-package shalygin.da;
+package shalygin.board;
 
-import shalygin.da.board.Board;
+import shalygin.piece.Piece;
 
 public class Move {
 
@@ -29,7 +29,7 @@ public class Move {
 
     public Board execute() {
         final Board.Builder builder = new Board.Builder();
-        if (initRow(placedPiece.position.getRow))
+        if (Board.initRow(placedPiece.position.getRow()))
         for (final Piece piece : this.board.currentPlayer().getPieces()) {
             if (!this.placedPiece.equals(piece)) builder.setPiece(piece);
         }

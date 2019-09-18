@@ -1,6 +1,6 @@
-package shalygin.da.board;
+package shalygin.board;
 
-import shalygin.da.Piece;
+import shalygin.piece.Piece;
 
 import java.util.HashMap;
 import java.util.Map;

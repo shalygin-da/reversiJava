@@ -1,4 +1,4 @@
-package shalygin.da.player;
+package shalygin.player;
 
 public class Player {
 
