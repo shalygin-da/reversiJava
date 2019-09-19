@@ -4,12 +4,12 @@ import shalygin.piece.Piece;
 
 public class Move {
 
-    protected final Board board;
+    protected final Board reversiBoard;
     protected final Piece placedPiece;
     protected final int dest;
 
-    private Move(final Board board, final Piece piece, final int dest) {
-        this.board = board;
+    private Move(final Board reversiBoard, final Piece piece, final int dest) {
+        this.reversiBoard = reversiBoard;
         this.dest = dest;
         this.placedPiece = piece;
     }
@@ -29,11 +29,14 @@ public class Move {
 
     public Board execute() {
         final Board.Builder builder = new Board.Builder();
-        if (Board.initRow(placedPiece.position.getRow()))
-        for (final Piece piece : this.board.currentPlayer().getPieces()) {
+        final Piece placedPiece = new Piece(reversiBoard.currentPlayer.getTeam(), dest);
+        builder.setPiece(placedPiece);
+        for (final Tile tile : reversiBoard.initRow)
+            // TODO: 9/19/2019
+        for (final Piece piece : this.reversiBoard.currentPlayer.getPieces()) {
             if (!this.placedPiece.equals(piece)) builder.setPiece(piece);
         }
-        for (final Piece piece : this.board.currentPlayer().getOpponent().getPieces) builder.setPiece(piece);
+        for (final Piece piece : this.reversiBoard.currentPlayer.getOpponent().getPieces()) builder.setPiece(piece);
     }
 
 }

@@ -28,5 +28,4 @@ public enum Team {
     public abstract boolean isWhite();
     public abstract boolean isBlack();
 
-
 }

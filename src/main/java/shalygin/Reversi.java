@@ -1,9 +1,14 @@
 package shalygin;
 
-public class Reversi
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import shalygin.board.Board;
+
+public class Reversi {
+
+    public static void main(String[] args) {
+
+        Board board = Board.createStandardBoard();
+        System.out.println(board);
+
+        Gui gui = new Gui();
     }
 }

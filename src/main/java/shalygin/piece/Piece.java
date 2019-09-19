@@ -3,7 +3,7 @@ package shalygin.piece;
 public class Piece {
 
     protected final Team team;
-    protected final int position;
+    public final int position;
     private final int cachedHashCode;
 
 
@@ -31,4 +31,13 @@ public class Piece {
 
     @Override
     public int hashCode() { return this.cachedHashCode; }
+
+    public int getRow() {
+        return position / 8;
+    }
+
+    public int getColumn() {
+        return position % 8;
+    }
+
 }

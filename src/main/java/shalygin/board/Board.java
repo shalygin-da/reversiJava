@@ -4,21 +4,46 @@ import shalygin.piece.Piece;
 import shalygin.piece.Team;
 import shalygin.player.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Board {
     
-    private final List<Tile> board;
-    private final Player currentPlayer;
+    public final List<Tile> board;
+    private final Collection<Piece> whitePieces;
+    private final Collection<Piece> blackPieces;
+    public final Player currentPlayer;
 
 
     public Board(final Builder builder) {
         this.board = createBoard(builder);
-        currentPlayer = null; // TODO: 9/18/2019  
+        this.currentPlayer = builder.nextPlayer;
+        this.whitePieces = calcPieces(this.board, Team.WHITE);
+        this.blackPieces = calcPieces(this.board, Team.BLACK);
+    }
 
+    private Collection<Piece> calcPieces(List<Tile> board, Team team) {
+        List<Piece> pieces = new ArrayList<>();
+        for (final Tile tile : board) {
+            if (tile.isOccupied()) {
+                final Piece piece = tile.getPiece();
+                if (piece.getTeam() == team) {
+                    pieces.add(piece);
+                }
+            }
+        }
+        return pieces;
+    }
+
+    public Tile getTile(int id) { return board.get(id); }
+
+    public static Board createStandardBoard() {
+        final Builder builder = new Builder();
+        builder.setPiece(new Piece(Team.BLACK, 27));
+        builder.setPiece(new Piece(Team.WHITE, 28));
+        builder.setPiece(new Piece(Team.BLACK, 36));
+        builder.setPiece(new Piece(Team.WHITE, 35));
+        builder.setPlayer(Team.WHITE);
+        return builder.build();
     }
 
     private List<Tile> createBoard(Builder builder) {
@@ -42,11 +67,16 @@ public class Board {
         return builder.toString();
     }
 
+    public Collection<Piece> getWhitePieces() { return this.whitePieces; }
+
+    public Collection<Piece> getBlackPieces() { return this.blackPieces; }
+
 
     public static class Builder {
 
         Map<Integer, Piece> config;
-        Team nextPlayer;
+        Player nextPlayer;
+        Team nextTeam;
         public Builder() { this.config = new HashMap<>(); }
 
         public Builder setPiece(final Piece piece) {
@@ -54,8 +84,8 @@ public class Board {
             return this;
         }
 
-        public Builder setPlayer(final Team nextPlayer) {
-            this.nextPlayer = nextPlayer;
+        public Builder setPlayer(final Team nextTeam) {
+            this.nextTeam = nextPlayer.getTeam();
             return this;
         }
 

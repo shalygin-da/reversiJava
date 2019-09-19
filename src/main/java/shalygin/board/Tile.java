@@ -21,12 +21,15 @@ public abstract class Tile {
         return emptyTileMap;
     }
 
+    public static Tile create(final int tileCoord, Piece piece) {
+        return piece != null ? new OccupiedTile(tileCoord, piece) : EMPTY_TILES_CACHE.get(tileCoord);
+    }
+
     public abstract boolean isOccupied();
 
     public abstract Piece getPiece();
 
     public int getTileCoord() { return this.tileCoord; }
-
 
     public static final class  EmptyTile extends Tile {
 
@@ -50,7 +53,7 @@ public abstract class Tile {
         }
     }
 
-    public final class OccupiedTile extends Tile {
+    public static final class OccupiedTile extends Tile {
 
         private final Piece piece;
 
