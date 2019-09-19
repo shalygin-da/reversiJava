@@ -31,8 +31,7 @@ public class Move {
         final Board.Builder builder = new Board.Builder();
         final Piece placedPiece = new Piece(reversiBoard.currentPlayer.getTeam(), dest);
         builder.setPiece(placedPiece);
-        for (final Tile tile : reversiBoard.initRow)
-            // TODO: 9/19/2019
+            // TODO: 9/19/2019 check if pieces can be overturned
         for (final Piece piece : this.reversiBoard.currentPlayer.getPieces()) {
             if (!this.placedPiece.equals(piece)) builder.setPiece(piece);
         }
