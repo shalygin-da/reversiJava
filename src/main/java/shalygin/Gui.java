@@ -3,7 +3,6 @@ package shalygin;
 import shalygin.board.Board;
 import shalygin.board.Move;
 import shalygin.board.Tile;
-import shalygin.piece.Piece;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,7 +22,6 @@ public class Gui {
     private final BoardPanel boardPanel;
     private Board board;
     private Tile destTile;
-    private Piece userMovedPiece;
 
     private static final Dimension OUTER_FRAME_DIMENSION = new Dimension (600, 600);
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);

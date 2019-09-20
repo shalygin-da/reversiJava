@@ -29,13 +29,12 @@ public class Board {
 
     private Collection<Piece> calcPieces(List<Tile> board, Team team) {
         List<Piece> pieces = new ArrayList<>();
-        for (final Tile tile : board) {
+        for (final Tile tile : board)
             if (tile.isOccupied()) {
-                if (tile.getPiece().getTeam() == team) {
-                    pieces.add(tile.getPiece());
-                }
+                final Piece piece = tile.getPiece();
+                if (piece.getTeam() == team)
+                    pieces.add(piece);
             }
-        }
         return pieces;
     }
 

@@ -33,7 +33,6 @@ public class Move {
     public static Board execute(int destTile) {
         final Board.Builder builder = new Board.Builder();
         final Piece placedPiece = new Piece(reversiBoard.currentPlayer.getTeam(), destTile);
-
         List<Integer> column = reversiBoard.initColumn(placedPiece.getColumn());
         List<Integer> row = reversiBoard.initRow(placedPiece.getRow());
         List<Integer> crossLtoR = reversiBoard.initCrossLtoR(placedPiece.getPosition());
