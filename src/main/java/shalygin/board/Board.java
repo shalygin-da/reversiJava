@@ -20,7 +20,7 @@ public class Board {
 
     public Board(final Builder builder) {
         this.board = createBoard(builder);
-        this.currentPlayer = builder.nextPlayer;
+        this.currentPlayer = builder.nextTeam.getTeam(this.whitePlayer(), this.blackPlayer());
         this.whitePlayer = new WhitePlayer(this);
         this.blackPlayer = new BlackPlayer(this);
         this.whitePieces = calcPieces(this.board, Team.WHITE);
@@ -147,9 +147,9 @@ public class Board {
     public static class Builder {
 
         Map<Integer, Piece> config;
-        Player nextPlayer;
         Team nextTeam;
-        public Builder() { this.config = new HashMap<>(); }
+
+        public Builder() { this.config = new HashMap<Integer, Piece>(); }
 
         public Builder setPiece(final Piece piece) {
             this.config.put(piece.getPosition(), piece);
