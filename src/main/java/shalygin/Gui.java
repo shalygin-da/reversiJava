@@ -96,8 +96,9 @@ public class Gui {
             addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    destTile = board.getTile(tileID);
                     if (!destTile.isOccupied()) {
-                        Move.execute(); // TODO: 9/20/2019 wtf is that
+                        Move.execute(destTile.getTileCoord()); // TODO: 9/20/2019 wtf is that
                     }
                 }
 
@@ -124,7 +125,7 @@ public class Gui {
         }
 
         private void assignTilePieceIcon(Board board) {
-            this.removeAll();
+            this.removeAll(); // TODO: 9/20/2019
 
 
 
@@ -132,7 +133,17 @@ public class Gui {
 
         private void paintTile() {
             setBackground(Color.lightGray);
-
+            if (board.initColumn(8).contains(this.tileID) ||
+                    (board.initColumn(6).contains(this.tileID) ||
+                            (board.initColumn(4).contains(this.tileID)  ||
+                                    (board.initColumn(2).contains(this.tileID))))) {
+                setBackground(this.tileID % 2 == 0 ? Color.lightGray : Color.darkGray);
+            } else if (board.initColumn(7).contains(this.tileID)  ||
+                    (board.initColumn(5).contains(this.tileID)  ||
+                            (board.initColumn(3).contains(this.tileID)  ||
+                                    (board.initColumn(1).contains(this.tileID)))))  {
+                setBackground(this.tileID % 2 == 0 ? Color.darkGray : Color.lightGray);
+            }
         }
 
         public void drawTile(final Board board) {

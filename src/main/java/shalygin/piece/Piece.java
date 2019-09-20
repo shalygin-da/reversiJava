@@ -2,8 +2,8 @@ package shalygin.piece;
 
 public class Piece {
 
-    protected final Team team;
-    public final int position;
+    private final Team team;
+    private final int position;
     private final int cachedHashCode;
 
 
@@ -33,11 +33,11 @@ public class Piece {
     public int hashCode() { return this.cachedHashCode; }
 
     public int getRow() {
-        return position / 8;
+        return position / 8; // TODO: 9/20/2019 check if works
     }
 
     public int getColumn() {
-        return position % 8;
+        return position % 8; // TODO: 9/20/2019 check if works
     }
 
 }
