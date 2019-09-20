@@ -1,6 +1,5 @@
 package shalygin.board;
 
-import jdk.internal.net.http.common.Pair;
 import shalygin.piece.Piece;
 import shalygin.piece.Team;
 import shalygin.player.BlackPlayer;
@@ -22,19 +21,18 @@ public class Board {
     public Board(final Builder builder) {
         this.board = createBoard(builder);
         this.currentPlayer = builder.nextPlayer;
-        this.whitePieces = calcPieces(this.board, Team.WHITE);
-        this.blackPieces = calcPieces(this.board, Team.BLACK);
         this.whitePlayer = new WhitePlayer(this);
         this.blackPlayer = new BlackPlayer(this);
+        this.whitePieces = calcPieces(this.board, Team.WHITE);
+        this.blackPieces = calcPieces(this.board, Team.BLACK);
     }
 
     private Collection<Piece> calcPieces(List<Tile> board, Team team) {
         List<Piece> pieces = new ArrayList<>();
         for (final Tile tile : board) {
             if (tile.isOccupied()) {
-                final Piece piece = tile.getPiece();
-                if (piece.getTeam() == team) {
-                    pieces.add(piece);
+                if (tile.getPiece().getTeam() == team) {
+                    pieces.add(tile.getPiece());
                 }
             }
         }
@@ -49,14 +47,14 @@ public class Board {
         builder.setPiece(new Piece(Team.WHITE, 28));
         builder.setPiece(new Piece(Team.BLACK, 36));
         builder.setPiece(new Piece(Team.WHITE, 35));
-        builder.setPlayer(Team.WHITE);
+        builder.setPlayer(Team.BLACK);
         return builder.build();
     }
 
     private List<Tile> createBoard(Builder builder) {
-        final Tile[] tiles = new Tile[63];
+        final Tile[] tiles = new Tile[64];
         List<Tile> tileList = new ArrayList<>();
-        for (int i = 0; i < 63; i++) {
+        for (int i = 0; i < 64; i++) {
             tiles[i] = Tile.create(i, builder.config.get(i));
             tileList.add(tiles[i]);
         }
@@ -66,10 +64,10 @@ public class Board {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 63; i++) {
+        for (int i = 0; i < 64; i++) {
             final String tileInfo = this.board.get(i).toString();
             builder.append(String.format("%3s", tileInfo));
-            if ((i + 1) % 8 == 0) builder.append("/n");
+            if ((i + 1) % 8 == 0) builder.append("\n");
         }
         return builder.toString();
     }
@@ -160,7 +158,7 @@ public class Board {
         }
 
         public Builder setPlayer(final Team nextTeam) {
-            this.nextTeam = nextPlayer.getTeam();
+            this.nextTeam = nextTeam;
             return this;
         }
 

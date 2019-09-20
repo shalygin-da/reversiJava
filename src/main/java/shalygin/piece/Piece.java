@@ -2,7 +2,7 @@ package shalygin.piece;
 
 public class Piece {
 
-    private final Team team;
+    public Team team;
     private final int position;
     private final int cachedHashCode;
 
@@ -11,6 +11,11 @@ public class Piece {
         this.team = team;
         this.position = position;
         this.cachedHashCode = computeHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return getTeam().toString();
     }
 
     private int computeHashCode() {

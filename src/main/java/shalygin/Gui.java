@@ -5,12 +5,16 @@ import shalygin.board.Move;
 import shalygin.board.Tile;
 import shalygin.piece.Piece;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Gui {
@@ -62,7 +66,7 @@ public class Gui {
         BoardPanel() {
             super(new GridLayout(8, 8));
             this.boardTiles = new ArrayList<>();
-            for (int i = 0; i < 63; i++) {
+            for (int i = 0; i < 64; i++) {
                 final TilePanel tilePanel = new TilePanel(this, i);
                 this.boardTiles.add(tilePanel);
                 add(tilePanel);
@@ -125,14 +129,19 @@ public class Gui {
         }
 
         private void assignTilePieceIcon(Board board) {
-            this.removeAll(); // TODO: 9/20/2019
-
-
-
+            this.removeAll();
+            if (board.getTile(this.tileID).isOccupied()) {
+                try {
+                    final BufferedImage image = ImageIO.read(new File("C:\\Users\\czar2\\IdeaProjects\\javaReversi\\png" +
+                            board.getTile(this.tileID).getPiece().getTeam().toString().substring(0, 1) + ".png"));
+                    add(new JLabel(new ImageIcon(image)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         private void paintTile() {
-            setBackground(Color.lightGray);
             if (board.initColumn(8).contains(this.tileID) ||
                     (board.initColumn(6).contains(this.tileID) ||
                             (board.initColumn(4).contains(this.tileID)  ||

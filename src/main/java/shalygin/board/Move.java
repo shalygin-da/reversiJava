@@ -35,56 +35,59 @@ public class Move {
         final Piece placedPiece = new Piece(reversiBoard.currentPlayer.getTeam(), destTile);
 
         List<Integer> column = reversiBoard.initColumn(placedPiece.getColumn());
-        column.remove(placedPiece.getPosition());
-        column.remove((placedPiece.getPosition() - 8));
-        column.remove((placedPiece.getPosition() + 8));
         List<Integer> row = reversiBoard.initRow(placedPiece.getRow());
-        row.remove(placedPiece.getPosition());
-        row.remove((placedPiece.getPosition() - 1));
-        row.remove((placedPiece.getPosition() + 1));
         List<Integer> crossLtoR = reversiBoard.initCrossLtoR(placedPiece.getPosition());
-        crossLtoR.remove(placedPiece.getPosition());
-        crossLtoR.remove((placedPiece.getPosition() - 9));
-        crossLtoR.remove((placedPiece.getPosition() + 9));
         List<Integer> crossRtoL = reversiBoard.initCrossRtoL(placedPiece.getPosition());
-        crossRtoL.remove(placedPiece.getPosition());
-        crossRtoL.remove((placedPiece.getPosition() - 9));
-        crossRtoL.remove((placedPiece.getPosition() + 9));
 
         builder.setPiece(placedPiece);
-            for (int id : column) {
-                Piece otherPiece = reversiBoard.getTile(id).getPiece();
-                if (otherPiece.getTeam() == placedPiece.getTeam()) { // TODO: 9/19/2019 check if pieces can be overturned
-                    if (otherPiece.) {
-
+        if (placedPiece.getRow() > 1) {
+            for (int i = 0; i < placedPiece.getRow() - 1; i++) { //handling columns going up from placedPiece
+                Tile checkTile = reversiBoard.getTile(destTile - (8 * i));
+                if (checkTile.isOccupied() && checkTile.getPiece().getTeam() == placedPiece.getTeam()) {
+                    for (int t = checkTile.getPiece().getRow(); t < placedPiece.getRow(); t++) {
+                        if (reversiBoard.getTile(t).getPiece().getTeam() != placedPiece.getTeam()) {
+                            reversiBoard.getTile(t).getPiece().team = reversiBoard.getTile(t).getPiece().getTeam().getOpposite();
+                        }
                     }
                 }
             }
-            for (int id : row) {
-                Piece otherPiece = reversiBoard.getTile(id).getPiece();
-                if (otherPiece.getTeam() == placedPiece.getTeam()) {
-                    if (otherPiece.) {
-
+        }
+        if (placedPiece.getRow() < 6) {
+            for (int i = 2 + placedPiece.getRow(); i <= 7; i++) { //handling columns going down from placedPiece
+                Tile checkTile = reversiBoard.getTile(destTile + (8 * (i - placedPiece.getRow())));
+                if (checkTile.isOccupied() && checkTile.getPiece().getTeam() == placedPiece.getTeam()) {
+                    for (int t = placedPiece.getRow(); t < checkTile.getPiece().getRow(); t++) {
+                        if (reversiBoard.getTile(t).getPiece().getTeam() != placedPiece.getTeam()) {
+                            reversiBoard.getTile(t).getPiece().team = reversiBoard.getTile(t).getPiece().getTeam().getOpposite();
+                        }
                     }
                 }
             }
-            for (int id : crossLtoR) {
-                Piece otherPiece = reversiBoard.getTile(id).getPiece();
-                if (otherPiece.getTeam() == placedPiece.getTeam()) {
-                    if (otherPiece.) {
-
+        }
+        if (placedPiece.getColumn() > 1) {
+            for (int i = 0; i < placedPiece.getColumn() - 1; i++) {//handling rows going right from placedPiece
+                Tile checkTile = reversiBoard.getTile(destTile - i);
+                if (checkTile.isOccupied() && checkTile.getPiece().getTeam() == placedPiece.getTeam()) {
+                    for (int t = checkTile.getPiece().getColumn(); t < placedPiece.getColumn(); t++) {
+                        if (reversiBoard.getTile(t).getPiece().getTeam() != placedPiece.getTeam()) {
+                            reversiBoard.getTile(t).getPiece().team = reversiBoard.getTile(t).getPiece().getTeam().getOpposite();
+                        }
                     }
                 }
             }
-            for (int id : crossLtoR) {
-                Piece otherPiece = reversiBoard.getTile(id).getPiece();
-                if (otherPiece.getTeam() == placedPiece.getTeam()) {
-                    if (otherPiece.) {
-
+        }
+        if (placedPiece.getColumn() < 6) {
+            for (int i = placedPiece.getColumn() + 2; i <= 7; i++) {//handling rows going left from placedPiece
+                Tile checkTile = reversiBoard.getTile(destTile + i);
+                if (checkTile.isOccupied() && checkTile.getPiece().getTeam() == placedPiece.getTeam()) {
+                    for (int t = placedPiece.getColumn(); t < checkTile.getPiece().getColumn(); t++) {
+                        if (reversiBoard.getTile(t).getPiece().getTeam() != placedPiece.getTeam()) {
+                            reversiBoard.getTile(t).getPiece().team = reversiBoard.getTile(t).getPiece().getTeam().getOpposite();
+                        }
                     }
                 }
             }
-
+        }
             for (final Piece piece : reversiBoard.currentPlayer.getPieces()) {
                 if (!placedPiece.equals(piece)) builder.setPiece(piece);
             }
