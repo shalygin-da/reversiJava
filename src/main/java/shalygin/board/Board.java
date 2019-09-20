@@ -131,19 +131,6 @@ public class Board {
         return cross;
     }
 
-    public void endGame() {
-        int x = 0;
-        int y = 0;
-        for (Tile tile : board) {
-            if (tile.getPiece().getTeam().isWhite()) x += 1;
-            else if (tile.getPiece().getTeam().isBlack()) y += 1;
-        }
-        if (x > y) System.out.println("Whites won!");
-        if (y > x) System.out.println("Blacks won!");
-        if (x == y) System.out.println("It's a Draw!");
-    }
-
-
     public static class Builder {
 
         Map<Integer, Piece> config;

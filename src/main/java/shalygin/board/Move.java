@@ -92,8 +92,26 @@ public class Move {
             }
             for (final Piece piece : reversiBoard.currentPlayer.getOpponent().getPieces()) builder.setPiece(piece);
                 builder.setPlayer(reversiBoard.currentPlayer.getOpponent().getTeam());
-            reversiBoard = null; // TODO: 9/20/2019 check if works, if not - revert changes
             return new Board(builder);
     }
 
+    public static void checkEndGame() {
+        if (!reversiBoard.currentPlayer.hasMoves()) {
+            final Board.Builder builder = new Board.Builder();
+            builder.setPlayer(reversiBoard.currentPlayer.getOpponent().getTeam());
+        }
+        if (!reversiBoard.currentPlayer.hasMoves()) endGame();
+    }
+
+    public static void endGame() {
+        int x = 0;
+        int y = 0;
+        for (Tile tile : reversiBoard.board) {
+            if (tile.getPiece().getTeam().isWhite()) x += 1;
+            else if (tile.getPiece().getTeam().isBlack()) y += 1;
+        }
+        if (x > y) System.out.println("Whites won!");
+        if (y > x) System.out.println("Blacks won!");
+        if (x == y) System.out.println("It's a Draw!");
+    }
 }

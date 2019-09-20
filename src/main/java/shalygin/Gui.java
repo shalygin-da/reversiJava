@@ -101,6 +101,7 @@ public class Gui {
                     destTile = board.getTile(tileID);
                     if (!destTile.isOccupied()) {
                         Move.execute(destTile.getTileCoord());
+                        Move.checkEndGame();
                     }
                 }
 
