@@ -26,7 +26,7 @@ public enum Team {
         public Team getOpposite() { return WHITE; }
 
         @Override
-        public String toString() { return "B"; }
+        public String toString() { return "b"; }
     };
 
     public abstract boolean isWhite();

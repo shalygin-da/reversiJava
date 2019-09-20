@@ -77,7 +77,7 @@ public class Gui {
 
         public void drawBoard(final Board board) {
             removeAll();
-            for (final TilePanel tilePanel: boardTiles) {
+            for (final TilePanel tilePanel : boardTiles) {
                 tilePanel.drawTile(board);
                 add(tilePanel);
             }
@@ -102,7 +102,7 @@ public class Gui {
                 public void mouseClicked(MouseEvent e) {
                     destTile = board.getTile(tileID);
                     if (!destTile.isOccupied()) {
-                        Move.execute(destTile.getTileCoord()); // TODO: 9/20/2019 wtf is that
+                        Move.execute(destTile.getTileCoord());
                     }
                 }
 
@@ -132,8 +132,8 @@ public class Gui {
             this.removeAll();
             if (board.getTile(this.tileID).isOccupied()) {
                 try {
-                    final BufferedImage image = ImageIO.read(new File("C:\\Users\\czar2\\IdeaProjects\\javaReversi\\png" +
-                            board.getTile(this.tileID).getPiece().getTeam().toString().substring(0, 1) + ".png"));
+                    final BufferedImage image = ImageIO.read(new File("png/" +
+                            board.getTile(this.tileID).getPiece().getTeam().toString() + ".png"));
                     add(new JLabel(new ImageIcon(image)));
                 } catch (IOException e) {
                     e.printStackTrace();
