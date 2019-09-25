@@ -13,14 +13,15 @@ public class BlackPlayer extends Player{
 
     public BlackPlayer(final Board board) {
         super(board);
+        this.team = Team.BLACK;
     }
 
     @Override
-    public Team getTeam() { return Team.BLACK; }
+    public Team getTeam() { return team; }
 
     @Override
     public Player getOpponent() {
-        return this.board.whitePlayer();
+        return this.board.getWhitePlayer();
     }
 
     @Override

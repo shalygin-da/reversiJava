@@ -10,19 +10,19 @@ import java.util.*;
 
 public class Board {
     
-    public final List<Tile> board;
+    private final List<Tile> board;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
-    public final Player currentPlayer;
+    private final Player currentPlayer;
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
 
 
     public Board(final Builder builder) {
         this.board = createBoard(builder);
-        this.currentPlayer = builder.nextTeam.getTeam(this.whitePlayer(), this.blackPlayer());
         this.whitePlayer = new WhitePlayer(this);
         this.blackPlayer = new BlackPlayer(this);
+        this.currentPlayer = builder.nextTeam.getPlayer(this.whitePlayer, this.blackPlayer);
         this.whitePieces = calcPieces(this.board, Team.WHITE);
         this.blackPieces = calcPieces(this.board, Team.BLACK);
     }
@@ -75,13 +75,13 @@ public class Board {
 
     public Collection<Piece> getBlackPieces() { return this.blackPieces; }
 
-    public Player whitePlayer() {
-        return this.whitePlayer;
-    }
+    public Player getWhitePlayer() { return this.whitePlayer; }
 
-    public Player blackPlayer() {
-        return this.blackPlayer;
-    }
+    public Player getBlackPlayer() { return this.blackPlayer; }
+
+    public Player getCurrentPlayer() { return currentPlayer; }
+
+    public List<Tile> getBoard() { return board; }
 
     public List<Integer> initColumn(int columnNumber) {
         List<Integer> column = new ArrayList<>();

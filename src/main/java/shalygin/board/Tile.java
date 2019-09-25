@@ -17,7 +17,7 @@ public abstract class Tile {
 
     private static Map<Integer, EmptyTile> createTiles() {
         final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
-        for (int i = 0; i < 63; i++) emptyTileMap.put(i, new EmptyTile(i));
+        for (int i = 0; i < 64; i++) emptyTileMap.put(i, new EmptyTile(i));
         return emptyTileMap;
     }
 

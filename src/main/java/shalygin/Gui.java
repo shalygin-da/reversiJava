@@ -37,6 +37,8 @@ public class Gui {
         this.board = Board.createStandardBoard();
         this.boardPanel = new BoardPanel();
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
+        this.gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.gameFrame.setVisible(true);
     }
 
     private JMenuBar createMenuBar() {
@@ -75,9 +77,9 @@ public class Gui {
 
         public void drawBoard(final Board board) {
             removeAll();
-            for (final TilePanel tilePanel : boardTiles) {
-                tilePanel.drawTile(board);
-                add(tilePanel);
+            for (final TilePanel boardTile : (boardTiles)) {
+                boardTile.drawTile(board);
+                add(boardTile);
             }
             validate();
             repaint();
@@ -100,8 +102,9 @@ public class Gui {
                 public void mouseClicked(MouseEvent e) {
                     destTile = board.getTile(tileID);
                     if (!destTile.isOccupied()) {
-                        Move.execute(destTile.getTileCoord());
-                        Move.checkEndGame();
+                        Move.execute(board, destTile.getTileCoord());
+                        boardPanel.drawBoard(board);
+                        // Move.checkEndGame(board); todo implement
                     }
                 }
 
@@ -141,22 +144,13 @@ public class Gui {
         }
 
         private void paintTile() {
-            if (board.initColumn(8).contains(this.tileID) ||
-                    (board.initColumn(6).contains(this.tileID) ||
-                            (board.initColumn(4).contains(this.tileID)  ||
-                                    (board.initColumn(2).contains(this.tileID))))) {
-                setBackground(this.tileID % 2 == 0 ? Color.lightGray : Color.darkGray);
-            } else if (board.initColumn(7).contains(this.tileID)  ||
-                    (board.initColumn(5).contains(this.tileID)  ||
-                            (board.initColumn(3).contains(this.tileID)  ||
-                                    (board.initColumn(1).contains(this.tileID)))))  {
-                setBackground(this.tileID % 2 == 0 ? Color.darkGray : Color.lightGray);
-            }
+            setBackground(Color.lightGray);
+            setBorder(BorderFactory.createLineBorder(Color.darkGray));
         }
 
         public void drawTile(final Board board) {
-            paintTile();
             assignTilePieceIcon(board);
+            paintTile();
             validate();
             repaint();
         }

@@ -10,10 +10,12 @@ import java.util.List;
 
 public abstract class Player {
 
-    private static Team team;
+    protected static Team team;
     protected final Board board;
 
-    Player(final Board board) { this.board = board; }
+    Player(final Board board) {
+        this.board = board;
+    }
 
     public abstract Collection<Piece> getPieces();
 

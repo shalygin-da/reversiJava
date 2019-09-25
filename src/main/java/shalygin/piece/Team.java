@@ -17,7 +17,7 @@ public enum Team {
         public String toString() { return "W"; }
 
         @Override
-        public Player getTeam(final Player whitePlayer, final Player blackPlayer) {
+        public Player getPlayer(final Player whitePlayer, final Player blackPlayer) {
             return whitePlayer;
         }
 
@@ -36,7 +36,7 @@ public enum Team {
         public String toString() { return "b"; }
 
         @Override
-        public Player getTeam(final Player whitePlayer, final Player blackPlayer) {
+        public Player getPlayer(final Player whitePlayer, final Player blackPlayer) {
             return blackPlayer;
         }
 
@@ -46,6 +46,6 @@ public enum Team {
     public abstract boolean isBlack();
     public abstract Team getOpposite();
     public abstract String toString();
-    public abstract Player getTeam(final Player whitePlayer, final Player blackPlayer);
+    public abstract Player getPlayer(final Player whitePlayer, final Player blackPlayer);
 
 }
