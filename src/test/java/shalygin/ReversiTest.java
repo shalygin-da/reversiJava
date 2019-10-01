@@ -1,20 +1,12 @@
 package shalygin;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-/**
- * Unit test for simple App.
- */
-public class ReversiTest
-{
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
-    }
+import java.util.HashSet;
+import java.util.Set;
+
+public class ReversiTest {
 }

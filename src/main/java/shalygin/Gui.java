@@ -91,7 +91,6 @@ public class Gui {
 
         TilePanel(final BoardPanel boardPanel, final int tileID) {
             super(new GridBagLayout());
-
             this.tileID = tileID;
             setPreferredSize(PANEL_DIMENSION);
             paintTile();
@@ -101,11 +100,12 @@ public class Gui {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     destTile = board.getTile(tileID);
-                    if (!destTile.isOccupied()) {
-                        Move.execute(board, destTile.getTileCoord());
+                    if (board.getMoves().contains(destTile.getTileCoord())) {
+                        board = Move.execute(board, destTile.getTileCoord(), true);
                         boardPanel.drawBoard(board);
-                        // Move.checkEndGame(board); todo implement
+                        Move.checkEndGame(board);
                     }
+                    else System.out.println("This is not a possible move!");
                 }
 
                 @Override
@@ -145,7 +145,7 @@ public class Gui {
 
         private void paintTile() {
             setBackground(Color.lightGray);
-            setBorder(BorderFactory.createLineBorder(Color.darkGray));
+            setBorder(BorderFactory.createSoftBevelBorder(0, Color.gray, Color.darkGray));
         }
 
         public void drawTile(final Board board) {

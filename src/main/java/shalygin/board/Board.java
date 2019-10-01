@@ -16,15 +16,18 @@ public class Board {
     private final Player currentPlayer;
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
+    private final List<Integer> moves;
 
 
-    public Board(final Builder builder) {
+    Board(final Builder builder) {
         this.board = createBoard(builder);
         this.whitePlayer = new WhitePlayer(this);
         this.blackPlayer = new BlackPlayer(this);
         this.currentPlayer = builder.nextTeam.getPlayer(this.whitePlayer, this.blackPlayer);
         this.whitePieces = calcPieces(this.board, Team.WHITE);
         this.blackPieces = calcPieces(this.board, Team.BLACK);
+        this.moves = currentPlayer.findMoves();
+
     }
 
     private Collection<Piece> calcPieces(List<Tile> board, Team team) {
@@ -46,8 +49,8 @@ public class Board {
         builder.setPiece(new Piece(Team.WHITE, 28));
         builder.setPiece(new Piece(Team.BLACK, 36));
         builder.setPiece(new Piece(Team.WHITE, 35));
-        builder.setPlayer(Team.BLACK);
-        return builder.build();
+        builder.setPlayingTeam(Team.BLACK);
+        return new Board(builder);
     }
 
     private List<Tile> createBoard(Builder builder) {
@@ -81,23 +84,27 @@ public class Board {
 
     public Player getCurrentPlayer() { return currentPlayer; }
 
+    public List<Integer> getMoves() { return moves; }
+
     public List<Tile> getBoard() { return board; }
 
     public List<Integer> initColumn(int columnNumber) {
         List<Integer> column = new ArrayList<>();
-        do {
+        while (columnNumber < 64) {
             column.add(columnNumber);
             columnNumber += 8;
-        } while (columnNumber < 64);
+        }
         return column;
     }
 
     public List<Integer> initRow(int rowNumber) {
         List<Integer> row = new ArrayList<>();
-        do {
+        int rowEq = rowNumber * 8 - 1;
+        rowNumber = rowEq;
+        while (rowNumber % 8 == rowEq % 8) {
             row.add(rowNumber);
             rowNumber++;
-        } while (rowNumber % 8 != 0);
+        }
         return row;
     }
 
@@ -143,12 +150,10 @@ public class Board {
             return this;
         }
 
-        public Builder setPlayer(final Team nextTeam) {
+        public Builder setPlayingTeam(final Team nextTeam) {
             this.nextTeam = nextTeam;
             return this;
         }
-
-        public Board build() { return new Board(this); }
 
     }
 }

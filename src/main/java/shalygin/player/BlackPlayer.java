@@ -13,11 +13,10 @@ public class BlackPlayer extends Player{
 
     public BlackPlayer(final Board board) {
         super(board);
-        this.team = Team.BLACK;
     }
 
     @Override
-    public Team getTeam() { return team; }
+    public Team getTeam() { return Team.BLACK; }
 
     @Override
     public Player getOpponent() {
@@ -27,13 +26,6 @@ public class BlackPlayer extends Player{
     @Override
     public boolean hasMoves() {
         return !findMoves().isEmpty();
-    }
-
-    @Override
-    public List<Move> findMoves() {
-        List<Move> moves = new ArrayList<>();
-// TODO: 9/20/2019  
-        return moves;
     }
 
     public Collection<Piece> getPieces() { return this.board.getBlackPieces(); }
