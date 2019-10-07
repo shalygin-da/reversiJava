@@ -31,7 +31,6 @@ public class Gui {
         final JMenuBar menuBar = createMenuBar();
         gameFrame.setJMenuBar(menuBar);
         gameFrame.setSize(OUTER_FRAME_DIMENSION);
-        gameFrame.setVisible(true);
         gameFrame.setLayout(new BorderLayout());
         this.board = Board.createStandardBoard();
         BoardPanel boardPanel = new BoardPanel();
@@ -118,6 +117,7 @@ public class Gui {
                             System.out.println("Black Turn");
                         } else System.out.println("Red Turn");
                         boardPanel.drawBoard(board);
+
                     }
                     else System.out.println("This is not a possible move!");
                 }
