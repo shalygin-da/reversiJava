@@ -96,7 +96,6 @@ public class Gui {
                 public void mouseClicked(MouseEvent e) {
                     destTile = board.getTile(tileID);
                     int count = 0;
-                    boolean end = false;
 
                     if (board.getDestTiles().contains(destTile.getTileCoord())) {
                         List<Move> movesToMake = new ArrayList<>();
@@ -113,10 +112,9 @@ public class Gui {
                             if (board.getMoves().isEmpty()) {
                                 boardPanel.drawBoard(board);
                                 Move.endGame(board);
-                                end = true;
                             }
                         }
-                        if (board.getCurrentPlayer().getTeam().isBlack() && end) {
+                        if (board.getCurrentPlayer().getTeam().isBlack()) {
                             System.out.println("Black Turn");
                         } else System.out.println("Red Turn");
                         boardPanel.drawBoard(board);
