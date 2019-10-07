@@ -31,6 +31,10 @@ public abstract class Tile {
 
     public int getTileCoord() { return this.tileCoord; }
 
+    public int getRow() { return tileCoord / 8; }
+
+    public int getColumn() { return tileCoord % 8; }
+
     public static final class  EmptyTile extends Tile {
 
         EmptyTile(final int tileCoord) {

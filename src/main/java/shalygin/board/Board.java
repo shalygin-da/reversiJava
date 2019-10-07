@@ -13,10 +13,11 @@ public class Board {
     private final List<Tile> board;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
-    private final Player currentPlayer;
+    private Player currentPlayer;
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
     private final List<Move> moves;
+    private final Builder builder;
 
 
     Board(final Builder builder) {
@@ -27,6 +28,7 @@ public class Board {
         this.whitePieces = calcPieces(this.board, Team.WHITE);
         this.blackPieces = calcPieces(this.board, Team.BLACK);
         this.moves = currentPlayer.findMoves();
+        this.builder = builder;
 
     }
 
@@ -96,54 +98,10 @@ public class Board {
         return list;
     }
 
-    public List<Integer> initColumn(int columnNumber) {
-        List<Integer> column = new ArrayList<>();
-        while (columnNumber < 64) {
-            column.add(columnNumber);
-            columnNumber += 8;
-        }
-        return column;
-    }
-
-    public List<Integer> initRow(int rowNumber) {
-        List<Integer> row = new ArrayList<>();
-        int rowEq = rowNumber * 8 - 1;
-        rowNumber = rowEq;
-        while (rowNumber % 8 == rowEq % 8) {
-            row.add(rowNumber);
-            rowNumber++;
-        }
-        return row;
-    }
-
-    public List<Integer> initCrossLtoR(int position) {
-        List<Integer> cross = new ArrayList<>();
-        int pos = position;
-        do {
-            cross.add(pos - 9);
-            pos -= 9;
-        } while (pos > 0);
-        pos = position;
-        do {
-            cross.add(pos + 9);
-            pos += 9;
-        } while (pos < 64);
-        return cross;
-    }
-
-    public List<Integer> initCrossRtoL(int position) {
-        List<Integer> cross = new ArrayList<>();
-        int pos = position;
-        do {
-            cross.add(pos - 7);
-            pos -= 7;
-        } while (pos > 0);
-        pos = position;
-        do {
-            cross.add(pos + 7);
-            pos += 7;
-        } while (pos < 64);
-        return cross;
+    public Board changePlayer() {
+        Builder newBuilder = this.builder;
+        builder.setPlayingTeam(currentPlayer.getTeam().getOpposite());
+        return new Board(builder);
     }
 
     static class Builder {

@@ -41,8 +41,4 @@ public class Piece {
     @Override
     public int hashCode() { return this.cachedHashCode; }
 
-    public int getRow() { return position / 8; }
-
-    public int getColumn() { return position % 8; }
-
 }

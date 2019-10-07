@@ -28,7 +28,7 @@ public class Move {
         this.tgtPiece = tgtPiece;
     }
 
-    int getDestTile() { return destTile; }
+    public int getDestTile() { return destTile; }
     private int getDir() { return dir; }
     private Piece getTgtPiece() { return tgtPiece; }
 
@@ -98,28 +98,18 @@ public class Move {
         }
 
         for (final Piece piece : piecesToSet) builder.setPiece(piece);
-        builder.setPlayingTeam(board.getCurrentPlayer().getOpponent().getTeam());
-        Board newBoard = new Board(builder);
-        System.out.println(newBoard);
-        return newBoard;
+        builder.setPlayingTeam(board.getCurrentPlayer().getTeam().getOpposite());
+        return new Board(builder);
     }
 
-    public static void checkEndGame(final Board board) {
-        if (!board.getCurrentPlayer().hasMoves()) {
-            final Board.Builder builder = new Board.Builder();
-            builder.setPlayingTeam(board.getCurrentPlayer().getOpponent().getTeam());
-        }
-        if (!board.getCurrentPlayer().hasMoves()) endGame(board);
-    }
-
-    private static void endGame(final Board board) {
+    public static void endGame(final Board board) {
        int x = scoreX(board);
        int y = scoreY(board);
         if (x > y) {
-            System.out.println("Team Red won!" + "\nTeam Black: " + x + "\nTeam Red: " + y);
+            System.out.println("Team Red won!" + "\nTeam Black: " + y + "\nTeam Red: " + x);
         } else if (x < y) {
-            System.out.println("Team Black won!" + "\nTeam Black: " + x + "\nTeam Red: " + y);
-        } else System.out.println("It's a Draw!" + "\nTeam Black: " + x + "\nTeam Red: " + y);
+            System.out.println("Team Black won!" + "\nTeam Black: " + y + "\nTeam Red: " + x);
+        } else System.out.println("It's a Draw!" + "\nTeam Black: " + y + "\nTeam Red: " + x);
         Gui.endGameWindow(board);
     }
 

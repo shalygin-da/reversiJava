@@ -7,14 +7,13 @@ import shalygin.board.Tile;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -51,12 +50,7 @@ public class Gui {
     private JMenu createFileMenu() {
         final JMenu fileMenu = new JMenu("File");
         final JMenuItem exitMenu = new JMenuItem("Exit");
-        exitMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exitMenu.addActionListener(e -> System.exit(0));
         fileMenu.add(exitMenu);
         return fileMenu;
     }
@@ -101,16 +95,31 @@ public class Gui {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     destTile = board.getTile(tileID);
+                    int count = 0;
+                    boolean end = false;
 
                     if (board.getDestTiles().contains(destTile.getTileCoord())) {
-                        int id = board.getDestTiles().indexOf(destTile.getTileCoord());
-                        board = Move.execute(board, board.getMoves().get(id));
+                        List<Move> movesToMake = new ArrayList<>();
+                        for (Move move: board.getMoves()) if (move.getDestTile() == tileID) movesToMake.add(move);
+                        for (Move move: movesToMake) {
+                            board = Move.execute(board, move);
+                            count++;
+                        }
+                        if (count % 2 == 0) board = board.changePlayer();
+                        System.out.println(board);
                         System.out.println("placed Piece at " + tileID);
-                        if (board.getCurrentPlayer().getTeam().isBlack()) {
+                        if (board.getMoves().isEmpty()) { //checking for endgame
+                            board = board.changePlayer();
+                            if (board.getMoves().isEmpty()) {
+                                boardPanel.drawBoard(board);
+                                Move.endGame(board);
+                                end = true;
+                            }
+                        }
+                        if (board.getCurrentPlayer().getTeam().isBlack() && end) {
                             System.out.println("Black Turn");
                         } else System.out.println("Red Turn");
                         boardPanel.drawBoard(board);
-                        Move.checkEndGame(board);
                     }
                     else System.out.println("This is not a possible move!");
                 }
@@ -169,19 +178,18 @@ public class Gui {
     public static void endGameWindow(final Board board) {
         JFrame frame = new JFrame("The match has ended!");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        JLabel label = new JLabel();
-
+        JLabel label;
         int x = Move.scoreX(board);
         int y = Move.scoreY(board);
         if (x > y) {
-            label.setText("Team Red won!" + " Team Black: " + x + " Team Red: " + y);
+            label = new JLabel("Team Red won!" + " Team Black: " + y + " Team Red: " + x);
         } else if (x < y) {
-            label.setText("Team Black won!" +
-                    " Team Black: " + x +
-                    " Team Red: " + y);
-        } else label.setText("It's a Draw!" +
-                " Team Black: " + x +
-                " Team Red: " + y);
+            label = new JLabel("Team Black won!" +
+                    " Team Black: " + y +
+                    " Team Red: " + x);
+        } else {
+            label = new JLabel("It's a Draw!" + " Team Black: " + y + " Team Red: " + x);
+        }
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
         frame.add(label);
