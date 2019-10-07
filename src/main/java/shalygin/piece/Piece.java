@@ -2,7 +2,7 @@ package shalygin.piece;
 
 public class Piece {
 
-    public Team team;
+    private Team team;
     private final int position;
     private final int cachedHashCode;
 
@@ -24,6 +24,10 @@ public class Piece {
 
     public Team getTeam() { return team; }
 
+    public void changeTeam() {
+        this.team = team.getOpposite();
+    }
+
     public int getPosition() { return position; }
 
     @Override
@@ -37,12 +41,8 @@ public class Piece {
     @Override
     public int hashCode() { return this.cachedHashCode; }
 
-    public int getRow() {
-        return position / 8; // TODO: 9/20/2019 check if works
-    }
+    public int getRow() { return position / 8; }
 
-    public int getColumn() {
-        return position % 8; // TODO: 9/20/2019 check if works
-    }
+    public int getColumn() { return position % 8; }
 
 }

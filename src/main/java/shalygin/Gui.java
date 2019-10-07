@@ -16,10 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 public class Gui {
 
-    private final JFrame gameFrame;
-    private final BoardPanel boardPanel;
     private Board board;
     private Tile destTile;
 
@@ -27,18 +27,19 @@ public class Gui {
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400, 350);
     private static final Dimension PANEL_DIMENSION = new Dimension(10,10);
 
-    public Gui() {
-        this.gameFrame = new JFrame("Reversi");
+    Gui() {
+        JFrame gameFrame = new JFrame("Reversi");
         final JMenuBar menuBar = createMenuBar();
-        this.gameFrame.setJMenuBar(menuBar);
-        this.gameFrame.setSize(OUTER_FRAME_DIMENSION);
-        this.gameFrame.setVisible(true);
-        this.gameFrame.setLayout(new BorderLayout());
+        gameFrame.setJMenuBar(menuBar);
+        gameFrame.setSize(OUTER_FRAME_DIMENSION);
+        gameFrame.setVisible(true);
+        gameFrame.setLayout(new BorderLayout());
         this.board = Board.createStandardBoard();
-        this.boardPanel = new BoardPanel();
-        this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
-        this.gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.gameFrame.setVisible(true);
+        BoardPanel boardPanel = new BoardPanel();
+        gameFrame.add(boardPanel, BorderLayout.CENTER);
+        gameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        gameFrame.setLocationRelativeTo(null);
+        gameFrame.setVisible(true);
     }
 
     private JMenuBar createMenuBar() {
@@ -75,7 +76,7 @@ public class Gui {
             validate();
         }
 
-        public void drawBoard(final Board board) {
+        void drawBoard(final Board board) {
             removeAll();
             for (final TilePanel boardTile : (boardTiles)) {
                 boardTile.drawTile(board);
@@ -100,8 +101,14 @@ public class Gui {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     destTile = board.getTile(tileID);
-                    if (board.getMoves().contains(destTile.getTileCoord())) {
-                        board = Move.execute(board, destTile.getTileCoord(), true);
+
+                    if (board.getDestTiles().contains(destTile.getTileCoord())) {
+                        int id = board.getDestTiles().indexOf(destTile.getTileCoord());
+                        board = Move.execute(board, board.getMoves().get(id));
+                        System.out.println("placed Piece at " + tileID);
+                        if (board.getCurrentPlayer().getTeam().isBlack()) {
+                            System.out.println("Black Turn");
+                        } else System.out.println("Red Turn");
                         boardPanel.drawBoard(board);
                         Move.checkEndGame(board);
                     }
@@ -146,9 +153,12 @@ public class Gui {
         private void paintTile() {
             setBackground(Color.lightGray);
             setBorder(BorderFactory.createSoftBevelBorder(0, Color.gray, Color.darkGray));
+            if (board.getDestTiles().contains(tileID)) {
+                setBackground(new Color(0, 160, 0));
+            }
         }
 
-        public void drawTile(final Board board) {
+        void drawTile(final Board board) {
             assignTilePieceIcon(board);
             paintTile();
             validate();
@@ -156,4 +166,27 @@ public class Gui {
         }
     }
 
+    public static void endGameWindow(final Board board) {
+        JFrame frame = new JFrame("The match has ended!");
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        JLabel label = new JLabel();
+
+        int x = Move.scoreX(board);
+        int y = Move.scoreY(board);
+        if (x > y) {
+            label.setText("Team Red won!" + " Team Black: " + x + " Team Red: " + y);
+        } else if (x < y) {
+            label.setText("Team Black won!" +
+                    " Team Black: " + x +
+                    " Team Red: " + y);
+        } else label.setText("It's a Draw!" +
+                " Team Black: " + x +
+                " Team Red: " + y);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        frame.add(label);
+        frame.setSize(400, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 }

@@ -9,14 +9,14 @@ import shalygin.player.WhitePlayer;
 import java.util.*;
 
 public class Board {
-    
+
     private final List<Tile> board;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
     private final Player currentPlayer;
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
-    private final List<Integer> moves;
+    private final List<Move> moves;
 
 
     Board(final Builder builder) {
@@ -41,7 +41,9 @@ public class Board {
         return pieces;
     }
 
-    public Tile getTile(int id) { return board.get(id); }
+    public Tile getTile(int id) {
+        return board.get(id);
+    }
 
     public static Board createStandardBoard() {
         final Builder builder = new Builder();
@@ -84,9 +86,15 @@ public class Board {
 
     public Player getCurrentPlayer() { return currentPlayer; }
 
-    public List<Integer> getMoves() { return moves; }
+    public List<Move> getMoves() { return moves; }
 
-    public List<Tile> getBoard() { return board; }
+    List<Tile> getBoard() { return board; }
+
+    public List<Integer> getDestTiles() {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < getMoves().size(); i++) list.add(getMoves().get(i).getDestTile());
+        return list;
+    }
 
     public List<Integer> initColumn(int columnNumber) {
         List<Integer> column = new ArrayList<>();
@@ -138,22 +146,21 @@ public class Board {
         return cross;
     }
 
-    public static class Builder {
+    static class Builder {
 
         Map<Integer, Piece> config;
         Team nextTeam;
 
-        public Builder() { this.config = new HashMap<Integer, Piece>(); }
+        Builder() {
+            this.config = new HashMap<>();
+        }
 
-        public Builder setPiece(final Piece piece) {
+        void setPiece(final Piece piece) {
             this.config.put(piece.getPosition(), piece);
-            return this;
         }
 
-        public Builder setPlayingTeam(final Team nextTeam) {
+        void setPlayingTeam(final Team nextTeam) {
             this.nextTeam = nextTeam;
-            return this;
         }
-
     }
 }

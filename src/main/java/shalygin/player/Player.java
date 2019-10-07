@@ -1,16 +1,15 @@
 package shalygin.player;
 
 import shalygin.board.Board;
+import shalygin.board.Move;
 import shalygin.piece.Piece;
 import shalygin.piece.Team;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public abstract class Player {
 
-    protected final Board board;
+    final Board board;
 
     Player(final Board board) {
         this.board = board;
@@ -24,31 +23,45 @@ public abstract class Player {
 
     public abstract boolean hasMoves();
 
-    public List<Integer> findMoves() {
-        {
-            List<Integer> moves = new ArrayList<>(); // TODO: 9/20/2019
+    public List<Move> findMoves() {
+        List<Move> moves = new ArrayList<>();
+
             for (Piece piece : getPieces()) {
-                if (piece.getPosition() > 7) {
-                    int pos = piece.getPosition();
-                    do { pos -= 8; }
-                    while (pos > 7 && board.getTile(pos - 8).isOccupied() &&
-                            board.getTile(piece.getPosition() - 8).getPiece().getTeam() != piece.getTeam());
-                    if (board.getTile(pos).getTileCoord() > 7 && !board.getTile(pos - 8).isOccupied())
-                        moves.add(pos - 8);
-                }
+                int pos = piece.getPosition(); //vertical upwards
+                while (pos > 7 && board.getTile(pos - 8).isOccupied() &&
+                        board.getTile(pos - 8).getPiece().getTeam() != board.getCurrentPlayer().getTeam())
+                    pos -= 8;
+                if (pos > 7 && !board.getTile(pos - 8).isOccupied() &&
+                        board.getTile(pos).getPiece().getTeam() != board.getCurrentPlayer().getTeam())
+                    moves.add(new Move(pos - 8, 0, piece));
 
-                if (piece.getPosition() < 55) {
-                    int pos = piece.getPosition();
-                    do { pos += 8; }
-                    while (pos < 55 && board.getTile(pos + 8).isOccupied() &&
-                            board.getTile(piece.getPosition() + 8).getPiece().getTeam() != piece.getTeam());
-                    if (board.getTile(pos).getTileCoord() < 55 && !board.getTile(pos + 8).isOccupied())
-                        moves.add(pos + 8);
-                }
+                //vertical downwards
+                pos = piece.getPosition();
+                while (pos < 55 && board.getTile(pos + 8).isOccupied() &&
+                        board.getTile(pos + 8).getPiece().getTeam() != board.getCurrentPlayer().getTeam())
+                    pos += 8;
+                if (pos < 56 && !board.getTile(pos + 8).isOccupied() &&
+                        board.getTile(pos).getPiece().getTeam() != board.getCurrentPlayer().getTeam())
+                    moves.add(new Move(pos + 8, 1, piece));
 
-                // TODO: 10/2/2019 HORIZONTALS AND DIAGONALS!!!!!!!!!!!!
+                 //horizontal right
+                pos = piece.getPosition();
+                while (pos % 8 < 7 && board.getTile(pos + 1).isOccupied() &&
+                        board.getTile(pos + 1).getPiece().getTeam() != board.getCurrentPlayer().getTeam())
+                    pos++;
+                if (pos % 8 < 7 && !board.getTile(pos + 1).isOccupied() &&
+                        board.getTile(pos).getPiece().getTeam() != board.getCurrentPlayer().getTeam())
+                    moves.add(new Move(pos + 1, 3, piece));
+
+                 //horizontal left
+                pos = piece.getPosition();
+                while (pos % 8 > 0 && board.getTile(pos - 1).isOccupied() &&
+                        board.getTile(pos - 1).getPiece().getTeam() != board.getCurrentPlayer().getTeam())
+                    pos--;
+                if (pos % 8 > 0 && !board.getTile(pos - 1).isOccupied() &&
+                        board.getTile(pos).getPiece().getTeam() != board.getCurrentPlayer().getTeam())
+                    moves.add(new Move(pos - 1, 2, piece));
             }
-            return moves;
-        }
-    };
+        return moves;
+    }
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public abstract class Tile {
 
-    protected final int tileCoord;
+    private final int tileCoord;
 
     private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createTiles();
 
@@ -21,7 +21,7 @@ public abstract class Tile {
         return emptyTileMap;
     }
 
-    public static Tile create(final int tileCoord, Piece piece) {
+    static Tile create(final int tileCoord, Piece piece) {
         return piece != null ? new OccupiedTile(tileCoord, piece) : EMPTY_TILES_CACHE.get(tileCoord);
     }
 
@@ -33,7 +33,7 @@ public abstract class Tile {
 
     public static final class  EmptyTile extends Tile {
 
-        public EmptyTile(final int tileCoord) {
+        EmptyTile(final int tileCoord) {
             super(tileCoord);
         }
 

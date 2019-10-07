@@ -1,13 +1,10 @@
 package shalygin.player;
 
 import shalygin.board.Board;
-import shalygin.board.Move;
 import shalygin.piece.Piece;
 import shalygin.piece.Team;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class WhitePlayer extends Player {
 
